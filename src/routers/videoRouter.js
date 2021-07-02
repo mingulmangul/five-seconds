@@ -3,14 +3,22 @@ import {
   play,
   edit,
   deleteVideo,
-  upload,
+  getUpload,
+  postUpload,
 } from "../controllers/videoController";
+import { videoUpload } from "../middlewares";
 
 const videoRouter = express.Router();
 
+videoRouter
+  .route("/upload")
+  .get(getUpload)
+  .post(
+    videoUpload.fields([{ name: "videoFile" }, { name: "thumbnailFile" }]),
+    postUpload
+  );
 videoRouter.get("/:id", play);
 videoRouter.get("/:id/edit", edit);
 videoRouter.get("/:id/delete", deleteVideo);
-videoRouter.get("/upload", upload);
 
 export default videoRouter;

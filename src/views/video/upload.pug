@@ -1,4 +1,20 @@
 extends ../base
 
 block main 
-    
+    form(method="post", enctype="multipart/form-data") 
+        label(for="videoFile") Video File
+        input#videoFile(type="file", name="videoFile", accept="video/*", required)
+
+        label(for="thumbnailFile") Thumbnail Image
+        input#thumbnailFile(type="file", name="thumbnailFile", accept="image/*",required)
+
+        label(for="title") Title
+        input#title(type="text", name="title", max="100", placeholder="Title of Video", required)
+
+        label(for="description") Description
+        input#description(type="text", name="description", placeholder="Description of Video", max="1000")
+
+        label(for="hashtags") Hashtags
+        input#hashtags(type="text", name="hashtags", placeholder="Hashtags are separated by spaces.")
+
+        button(type="submit") Upload

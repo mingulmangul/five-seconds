@@ -1,5 +1,8 @@
-export const home = (req, res) => {
-  return res.render("video/home", { pageTitle: "Home" });
+import Video from "../models/Video";
+
+export const home = async (req, res) => {
+  const videos = await Video.find({}).sort({ createdAt: "desc" });
+  return res.render("video/home", { pageTitle: "Home", videos });
 };
 
 export const search = (req, res) => {
@@ -18,6 +21,29 @@ export const deleteVideo = (req, res) => {
   return res.send("video delete");
 };
 
-export const upload = (req, res) => {
+export const getUpload = async (req, res) => {
   return res.render("video/upload", { pageTitle: "Upload Video" });
+};
+
+export const postUpload = async (req, res) => {
+  const {
+    body: { title, description, hashtags },
+    files: { videoFile, thumbnailFile },
+  } = req;
+
+  try {
+    // Todo: add owner path
+    await Video.create({
+      fileUrl: videoFile[0].path,
+      thumbnailUrl: thumbnailFile[0].path,
+      title,
+      description,
+      hashtags,
+    });
+    return res.redirect("/"); // Todo: redirect to /user/:id
+  } catch {
+    // req.flash("error", "error: Upload failed.");
+    console.log("error");
+    return res.redirect("/videos/upload");
+  }
 };
