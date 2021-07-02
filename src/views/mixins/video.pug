@@ -1,0 +1,10 @@
+mixin video(video)
+    div 
+        //- img(src="/"+video.thumbnailUrl, alt="Thumbnail of Video")
+    div 
+        div
+            //- img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner")
+        div 
+            h4=video.title
+            //- p=video.owner.name
+            span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}

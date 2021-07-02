@@ -1,7 +1,10 @@
 import Video from "../models/Video";
 
 export const home = async (req, res) => {
-  const videos = await Video.find({}).sort({ createdAt: "desc" });
+  const videos = await Video.find({})
+    .sort({ createdAt: "desc" })
+    .populate({ path: "owner", select: "name avatarUrl" });
+  // console.log(videos);
   return res.render("video/home", { pageTitle: "Home", videos });
 };
 
