@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  play,
   edit,
   deleteVideo,
   getUpload,
   postUpload,
+  watch,
 } from "../controllers/videoController";
 import { videoUpload } from "../middlewares";
 
@@ -17,7 +17,7 @@ videoRouter
     videoUpload.fields([{ name: "videoFile" }, { name: "thumbnailFile" }]),
     postUpload
   );
-videoRouter.get("/:id", play);
+videoRouter.get("/:id", watch);
 videoRouter.get("/:id/edit", edit);
 videoRouter.get("/:id/delete", deleteVideo);
 

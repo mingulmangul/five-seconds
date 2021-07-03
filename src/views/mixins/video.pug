@@ -1,10 +1,15 @@
 mixin video(video)
     div 
-        //- img(src="/"+video.thumbnailUrl, alt="Thumbnail of Video")
+        a(href="/videos/"+video._id) 
+            img(src="/"+video.thumbnailUrl, alt="Thumbnail of Video", style="height:150px; width:250px;")
     div 
         div
-            //- img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner")
+            if video.owner.avatarUrl
+                img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
+            else 
+                p 😺
         div 
-            h4=video.title
-            //- p=video.owner.name
-            span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}
+            a(href="/videos/"+video._id) 
+                h4=video.title
+                p=video.owner.name
+                span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}

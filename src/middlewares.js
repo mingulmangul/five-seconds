@@ -9,8 +9,8 @@ export const videoUpload = multer({
 
 export const localsMiddleware = (req, res, next) => {
   res.locals.loggedIn = Boolean(req.session.loggedIn);
-  res.locals.loggedInUser = req.session.loggedInUser || {};
-  console.log(req.session);
-  console.log(res.locals);
+  res.locals.user = req.session.user || {};
+  // console.log(req.session);
+  // console.log(res.locals);
   next();
 };

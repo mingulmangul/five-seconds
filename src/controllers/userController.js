@@ -50,7 +50,7 @@ export const postLogin = async (req, res) => {
       return res.redirect("/login");
     }
     req.session.loggedIn = true;
-    req.session.loggedInUser = existUser;
+    req.session.user = existUser;
     req.flash("info", "Login succeeded!");
     return res.redirect("/");
   } catch (error) {
@@ -61,7 +61,7 @@ export const postLogin = async (req, res) => {
 
 export const logout = (req, res) => {
   req.session.loggedIn = false;
-  delete req.session.loggedInUser;
+  delete req.session.user;
   req.flash("info", "Logout secceeded!");
   return res.redirect("/");
 };

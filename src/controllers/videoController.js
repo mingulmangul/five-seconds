@@ -4,7 +4,6 @@ export const home = async (req, res) => {
   const videos = await Video.find({})
     .sort({ createdAt: "desc" })
     .populate({ path: "owner", select: "name avatarUrl" });
-  // console.log(videos);
   return res.render("video/home", { pageTitle: "Home", videos });
 };
 
@@ -12,8 +11,8 @@ export const search = (req, res) => {
   return res.render("video/search", { pageTitle: "Search" });
 };
 
-export const play = (req, res) => {
-  return res.render("video/play"), { pageTitle: "video's title" };
+export const watch = (req, res) => {
+  return res.render("video/watch"), { pageTitle: "video's title" };
 };
 
 export const edit = (req, res) => {
@@ -32,18 +31,18 @@ export const postUpload = async (req, res) => {
   const {
     body: { title, description, hashtags },
     files: { videoFile, thumbnailFile },
+    session: { user },
   } = req;
-
   try {
-    // Todo: add owner path
     await Video.create({
       fileUrl: videoFile[0].path,
       thumbnailUrl: thumbnailFile[0].path,
       title,
       description,
-      hashtags,
+      hashtags: Video.formatHashtags(hashtags),
+      owner: user,
     });
-    return res.redirect("/"); // Todo: redirect to /user/:id
+    return res.redirect("/users/" + user._id);
   } catch {
     req.flash("error", "Error: Please try again.");
     return res.redirect("/videos/upload");
