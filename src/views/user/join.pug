@@ -1,0 +1,21 @@
+extends ../base
+
+block main 
+    if messages.joinError 
+        p=messages.joinError
+    form(method="post") 
+        label(for="email") Email
+        input#email(type="email", name="email", required)
+        label(for="password") Password
+        input#password(type="password", name="password", required)
+        label(for="pwConfirm") Password Confirm
+        input#pwConfirm(type="password", name="pwConfirm", required)
+        label(for="name") Name
+        input#name(type="text", name="name", required)
+        label(for="description") Bio
+        input#description(type="text", name="description")
+        button(type="submit") Create Account
+    hr
+    div
+        p Do you already have an account?
+        a(href="/login") Login now &rarr;
