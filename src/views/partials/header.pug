@@ -5,9 +5,15 @@ header
                 a(href="/") Home 
             li 
                 a(href="/search") Search
-            li 
-                a(href="/join") Join 
-            li 
-                a(href="/login") Login 
-            li 
-                a(href="/videos/upload") Upload 
+            if loggedIn
+                li 
+                    a(href="/videos/upload") Upload Video
+                li 
+                    a(href=`/users/${loggedInUser._id}`) My Profile 
+                li 
+                    a(href="/logout") Log Out
+            else 
+                li 
+                    a(href="/signup") Sign Up 
+                li 
+                    a(href="/login") Log In 

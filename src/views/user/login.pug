@@ -1,0 +1,15 @@
+extends ../base
+
+block main 
+    if messages.loginError 
+        p=messages.loginError
+    form(method="post") 
+        label(for="email") Email
+        input#email(type="email", name="email", required)
+        label(for="password") Password
+        input#password(type="password", name="password", required)
+        button(type="submit") Log In
+        hr
+        div
+            p Don’t have an account?
+            a(href="/signup") Sign up &rarr;

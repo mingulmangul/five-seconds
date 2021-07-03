@@ -1,25 +1,21 @@
 import User from "../models/User";
+import bcrypt from "bcrypt";
 
-export const getJoin = (req, res) => {
-  return res.render("user/join", { pageTitle: "Join" });
+export const getSignUp = (req, res) => {
+  return res.render("user/signup", { pageTitle: "Sign Up" });
 };
 
-export const postJoin = async (req, res) => {
+export const postSignUp = async (req, res) => {
   const { email, password, pwConfirm, name, description } = req.body;
   if (password !== pwConfirm) {
-    req.flash("joinError", "Passwords didn't match.");
-    return res.redirect("/join");
+    req.flash("signUpError", "The confirmation does not match the password.");
+    return res.redirect("/signup");
   }
   try {
-    const emailExists = await User.exists({ email });
-    if (emailExists) {
-      req.flash("joinError", "This email already exists.");
-      return res.redirect("/join");
-    }
-    const nameExists = await User.exists({ name });
-    if (nameExists) {
-      req.flash("joinError", "This name already exists.");
-      return res.redirect("/join");
+    const exists = await User.exists({ email });
+    if (exists) {
+      req.flash("signUpError", "This email already exists.");
+      return res.redirect("/signup");
     }
     await User.create({
       email,
@@ -32,16 +28,42 @@ export const postJoin = async (req, res) => {
   } catch (error) {
     console.log(error);
     req.flash("error", "Error: Please try again.");
-    return res.redirect("/join");
+    return res.redirect("/signup");
   }
 };
 
-export const login = (req, res) => {
-  return res.render("user/login", { pageTitle: "Login" });
+export const getLogin = (req, res) => {
+  return res.render("user/login", { pageTitle: "Log In" });
+};
+
+export const postLogin = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const existUser = await User.findOne({ email });
+    if (!existUser) {
+      req.flash("loginError", "This email does not exist.");
+      return res.redirect("/login");
+    }
+    const match = await bcrypt.compare(password, existUser.password);
+    if (!match) {
+      req.flash("loginError", "The password is incorrect.");
+      return res.redirect("/login");
+    }
+    req.session.loggedIn = true;
+    req.session.loggedInUser = existUser;
+    req.flash("info", "Login succeeded!");
+    return res.redirect("/");
+  } catch (error) {
+    req.flash("error", "Error: Please try again.");
+    return res.redirect("/login");
+  }
 };
 
 export const logout = (req, res) => {
-  return res.send("logout!");
+  req.session.loggedIn = false;
+  delete req.session.loggedInUser;
+  req.flash("info", "Logout secceeded!");
+  return res.redirect("/");
 };
 
 export const profile = (req, res) => {

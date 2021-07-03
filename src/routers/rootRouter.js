@@ -1,8 +1,9 @@
 import express from "express";
 import {
-  getJoin,
-  postJoin,
-  login,
+  getSignUp,
+  postSignUp,
+  getLogin,
+  postLogin,
   logout,
 } from "../controllers/userController";
 import { home, search } from "../controllers/videoController";
@@ -10,8 +11,8 @@ import { home, search } from "../controllers/videoController";
 const rootRouter = express.Router();
 
 rootRouter.get("/", home);
-rootRouter.route("/join").get(getJoin).post(postJoin);
-rootRouter.get("/login", login);
+rootRouter.route("/signup").get(getSignUp).post(postSignUp);
+rootRouter.route("/login").get(getLogin).post(postLogin);
 rootRouter.get("/logout", logout);
 rootRouter.get("/search", search);
 

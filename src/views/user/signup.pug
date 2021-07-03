@@ -1,8 +1,8 @@
 extends ../base
 
 block main 
-    if messages.joinError 
-        p=messages.joinError
+    if messages.signUpError 
+        p=messages.signUpError
     form(method="post") 
         label(for="email") Email
         input#email(type="email", name="email", required)
@@ -14,8 +14,8 @@ block main
         input#name(type="text", name="name", required)
         label(for="description") Bio
         input#description(type="text", name="description")
-        button(type="submit") Create Account
-    hr
-    div
-        p Do you already have an account?
-        a(href="/login") Login now &rarr;
+        button(type="submit") Sign Up
+        hr
+        div
+            p Already have an account?
+            a(href="/login") Log In &rarr;
