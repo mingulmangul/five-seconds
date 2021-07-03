@@ -45,8 +45,7 @@ export const postUpload = async (req, res) => {
     });
     return res.redirect("/"); // Todo: redirect to /user/:id
   } catch {
-    // req.flash("error", "error: Upload failed.");
-    console.log("error");
+    req.flash("error", "error: Upload failed.");
     return res.redirect("/videos/upload");
   }
 };
