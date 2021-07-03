@@ -66,12 +66,32 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 
-export const profile = (req, res) => {
-  return res.render("user/profile", { pageTitle: "profile owner's name" });
+export const profile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const owner = await User.findById(id).populate("videos").populate({
+      path: "owner",
+      select: "avatarUrl name",
+    });
+    if (!owner) {
+      req.flash("error", "The user does not exist.");
+      return res.redirect("/");
+    }
+    return res.render("user/profile", {
+      pageTitle: owner.name,
+      owner,
+    });
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Cannot access");
+    return res.redirect("/");
+  }
 };
+
 export const userEdit = (req, res) => {
   return res.render("user/edit-profile", { pageTitle: "Edit profile" });
 };
+
 export const userDelete = (req, res) => {
   return res.send("user deleted!");
 };

@@ -9,6 +9,8 @@ html(lang="en")
     body             
         if messages.info 
             span=messages.info
+        if messages.error 
+            span=messages.error
         include partials/header
         main
             block main 

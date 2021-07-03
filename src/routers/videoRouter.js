@@ -17,8 +17,8 @@ videoRouter
     videoUpload.fields([{ name: "videoFile" }, { name: "thumbnailFile" }]),
     postUpload
   );
-videoRouter.get("/:id", watch);
-videoRouter.get("/:id/edit", edit);
-videoRouter.get("/:id/delete", deleteVideo);
+videoRouter.get("/:id([0-9a-z]{24})", watch);
+videoRouter.get("/:id([0-9a-z]{24})/edit", edit);
+videoRouter.get("/:id([0-9a-z]{24})/delete", deleteVideo);
 
 export default videoRouter;

@@ -1,4 +1,16 @@
 extends ../base
+include ../mixins/video
 
 block main 
-    h1 profile
+    div 
+        if owner.avatarUrl
+            img(src="/"+owner.avatarUrl, alt="Avatar", style="width:80px; height:80px; border-radious:50%;")
+        else 
+            p 😺
+        h2=owner.name 
+    div 
+        each video in owner.videos 
+            +video(video)
+        else
+            p No video
+            a(href="/videos/upload") Go to upload &rarr;

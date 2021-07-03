@@ -4,12 +4,13 @@ mixin video(video)
             img(src="/"+video.thumbnailUrl, alt="Thumbnail of Video", style="height:150px; width:250px;")
     div 
         div
-            if video.owner.avatarUrl
-                img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
-            else 
-                p 😺
+            a(href="/users/"+video.owner._id) 
+                if video.owner.avatarUrl
+                    img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
+                else 
+                    p 😺
         div 
             a(href="/videos/"+video._id) 
                 h4=video.title
-                p=video.owner.name
-                span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}
+            p=video.owner.name
+            span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}
