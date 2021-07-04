@@ -21,3 +21,19 @@ export const localsMiddleware = (req, res, next) => {
   // console.log(res.locals);
   next();
 };
+
+export const publicOnly = (req, res, next) => {
+  if (req.session.loggedIn) {
+    req.flash("error", "You are aleardy logged in.");
+    return res.redirect("/");
+  }
+  return next();
+};
+
+export const privateOnly = (req, res, next) => {
+  if (!req.session.loggedIn) {
+    req.flash("error", "Login first.");
+    return res.redirect("/login");
+  }
+  return next();
+};
