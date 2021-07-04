@@ -13,12 +13,16 @@ const addComment = (text, id) => {
   commentIcon.className = "fas fa-comment";
   const textSpan = document.createElement("span");
   textSpan.innerText = ` ${text}`;
+  const dataDiv = document.createElement("div");
+  dataDiv.className = "comment__data";
+  const div1 = document.createElement("div");
   const ownerSpan = document.createElement("span");
   ownerSpan.className = "comment__owner";
   ownerSpan.innerText = player.dataset.username;
   const timeSpan = document.createElement("span");
   timeSpan.className = "comment__created-at";
   timeSpan.innerText = " " + new Date().toString().substr(4, 11);
+  const div2 = document.createElement("div");
   const deleteSpanIcon = document.createElement("i");
   deleteSpanIcon.className = "fas fa-trash-alt";
   deleteSpanIcon.setAttribute("data-id", id);
@@ -29,10 +33,13 @@ const addComment = (text, id) => {
   deleteSpan.appendChild(deleteSpanIcon);
   commentText.appendChild(commentIcon);
   commentText.appendChild(textSpan);
+  div1.appendChild(ownerSpan);
+  div1.appendChild(timeSpan);
+  div2.appendChild(deleteSpan);
   newComment.appendChild(commentText);
-  newComment.appendChild(ownerSpan);
-  newComment.appendChild(timeSpan);
-  newComment.appendChild(deleteSpan);
+  dataDiv.appendChild(div1);
+  dataDiv.appendChild(div2);
+  newComment.appendChild(dataDiv);
   videoComments.prepend(newComment);
 };
 

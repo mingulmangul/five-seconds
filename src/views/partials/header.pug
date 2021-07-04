@@ -2,14 +2,14 @@ header
     nav 
         ul 
             li 
-                a(href="/") Home 
+                a(href="/") 5seconds
             li 
                 a(href="/search") Search
             if loggedIn
                 li 
                     a(href="/videos/upload") Upload Video
                 li 
-                    a(href=`/users/${loggedInUser._id}`) 
+                    a.header__avatar(href=`/users/${loggedInUser._id}`) 
                         if loggedInUser.avatarUrl
                             if loggedInUser.avatarUrl.startsWith("http")
                                 img(src=loggedInUser.avatarUrl, alt="Avatar")

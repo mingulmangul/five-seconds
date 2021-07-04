@@ -42,3 +42,19 @@ button[type="submit"],
     pointer-events: none;
   }
 }
+
+.video__comments-form {
+  max-width: 1000px;
+  display: flex;
+  align-items: center;
+  textarea {
+    resize: none;
+    width: 80%;
+    height: 80px;
+    margin: 20px;
+  }
+  .video__comments-btn {
+    height: 80px;
+    font-weight: 600;
+  }
+}

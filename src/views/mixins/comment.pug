@@ -3,8 +3,11 @@ mixin comment(comment)
         div.comment__text
             i.fas.fa-comment
             span  #{comment.text}
-        span.comment__owner=comment.owner.name
-        span.comment__created-at  #{comment.createdAt.toString().substr(4, 11)}
-        if String(comment.owner._id) === String(loggedInUser._id)
-            span.comment__deleteBtn
-                i.fas.fa-trash-alt(data-id=comment._id)
+        div.comment__data
+            div
+                span.comment__owner=comment.owner.name
+                span.comment__created-at  #{comment.createdAt.toString().substr(4, 11)}
+            div
+                if String(comment.owner._id) === String(loggedInUser._id)
+                    span.comment__deleteBtn
+                        i.fas.fa-trash-alt(data-id=comment._id)

@@ -13,11 +13,12 @@ block main
         h2=user.name 
         p=user.description
         if String(loggedInUser._id) === String(user._id)
-            a(href=`/users/${user._id}/edit`) Edit Profile
+            a.profile__edit-btn(href=`/users/${user._id}/edit`) Edit Profile
     hr
     div.video-grid 
         each video in user.videos.reverse()
             +video(video)
         else
-            p.empty__message No video
-            a(href="/videos/upload") Go to upload &rarr;
+            div.video-grid__empty
+                p No video
+                a(href="/videos/upload") Go to upload &rarr;
