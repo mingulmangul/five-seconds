@@ -1,4 +1,4 @@
-.video-player {
+.video__player {
   width: 100%;
   position: relative;
   &.hide-cursor {
@@ -7,7 +7,7 @@
   video {
     width: 100%;
   }
-  .video-controls {
+  .video__controls {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     &.showing {
@@ -51,5 +51,30 @@
     .video-controls__fullscreen {
       margin: 0 15px;
     }
+  }
+}
+.video__data {
+  padding: 20px;
+  h2 {
+    margin: 10px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  p {
+    font-size: 16px;
+    margin: 0 20px;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    img {
+      width: 50px;
+      height: 50px;
+      margin: 0 10px;
+      border-radius: 50%;
+    }
+  }
+  .video__views {
+    margin: 20px 0;
   }
 }

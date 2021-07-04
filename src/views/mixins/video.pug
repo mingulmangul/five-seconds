@@ -1,13 +1,13 @@
 mixin video(video)
     div.video
-        div 
+        div.video__thumbnail 
             a(href="/videos/"+video._id) 
-                if isHeroku
+                if !isHeroku
                     img(src=video.thumbnailUrl, alt="Thumbnail of Video")
                 else
                     img(src="/"+video.thumbnailUrl, alt="Thumbnail of Video")
-        div 
-            div
+        div
+            div.video__owner-data
                 a(href="/users/"+video.owner._id) 
                     if video.owner.avatarUrl
                         if video.owner.avatarUrl.startsWith("http")
@@ -17,7 +17,7 @@ mixin video(video)
                     else 
                         span 😺
                     span=video.owner.name
-            div 
+            div.video__summary
                 a(href="/videos/"+video._id) 
-                    h4=video.title
-                    span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}
+                    h3=video.title
+                    h5 #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}

@@ -18,7 +18,6 @@ block main
     div.video-grid 
         each video in user.videos.reverse()
             +video(video)
-            hr
         else
             p.empty__message No video
             a(href="/videos/upload") Go to upload &rarr;

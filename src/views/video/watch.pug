@@ -4,24 +4,25 @@ include ../mixins/comment
 block main 
     div.video__player(data-id=video._id, data-username=loggedInUser.name)
         div
-            if isHeroku 
+            if !isHeroku 
                 video(src=video.fileUrl)
             else
                 video(src="/"+video.fileUrl)
         div#videoControls.video__controls 
-            span#playBtn.video__play-btn 
-                i.fas.fa-play
-            div.video__playtime
-                span#currentTime 00:00
-                span  / 
-                span#totalTime 00:00
-            input#timeline.video__timeline(type="range", value="0", min="0", step="1")
-            div.video__volume
-                span#muteBtn 
+            div.video-controls__play
+                span#playBtn.video-controls__play-btn
+                    i.fas.fa-play
+                div.video-controls__playtime 
+                    span#currentTime 00:00
+                    span  /
+                    span#totalTime 00:00
+            input#timeline.video-controls__timeline(type="range", value="0", min="0", step="1")
+            div.video-controls__volume
+                span#muteBtn
                     i.fas.fa-volume-up
-                input#volumeRange.video__volume-range(type="range", min="0", max="1", step="0.1")
-            div.video__fullscreen
-                span#fullscreenBtn 
+                input#volumeRange(type="range", min="0", max="1", step="0.1")
+            div.video-controls__fullscreen
+                span#fullscreenBtn
                     i.fas.fa-expand
      
     div.video__data 
@@ -37,7 +38,7 @@ block main
                     span 😺
                 span=video.owner.name
             p=video.description
-            span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}
+            span.video__views #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}
         if String(loggedInUser._id) === String(video.owner._id)
             hr
             div 
