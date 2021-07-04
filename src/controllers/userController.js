@@ -1,5 +1,9 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
+import fetch from "node-fetch";
+
+const errorMsg = "Error: Please try again.";
+const authorizeMsg = "Error: Not authorized.";
 
 export const getSignUp = (req, res) => {
   return res.render("user/signup", { pageTitle: "Sign Up" });
@@ -27,7 +31,7 @@ export const postSignUp = async (req, res) => {
     return res.redirect("/login");
   } catch (error) {
     console.log(error);
-    req.flash("error", "Error: Please try again.");
+    req.flash("error", errorMsg);
     return res.redirect("/signup");
   }
 };
@@ -43,6 +47,9 @@ export const postLogin = async (req, res) => {
     if (!existUser) {
       req.flash("loginError", "This email does not exist.");
       return res.redirect("/login");
+    } else if (existUser.socialLogin) {
+      req.flash("loginError", "Please use social login.");
+      return res.redirect("/login");
     }
     const match = await bcrypt.compare(password, existUser.password);
     if (!match) {
@@ -54,7 +61,84 @@ export const postLogin = async (req, res) => {
     req.flash("info", "Login succeeded!");
     return res.redirect("/");
   } catch (error) {
-    req.flash("error", "Error: Please try again.");
+    req.flash("error", errorMsg);
+    return res.redirect("/login");
+  }
+};
+
+export const startGithubLogin = (req, res) => {
+  const baseUrl = "https://github.com/login/oauth/authorize";
+  const config = {
+    client_id: process.env.GH_ID,
+    scope: "read:user user:email",
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalUrl = `${baseUrl}?${params}`;
+  return res.redirect(finalUrl);
+};
+
+export const finishGithubLogin = async (req, res) => {
+  const baseUrl = "https://github.com/login/oauth/access_token";
+  const config = {
+    client_id: process.env.GH_ID,
+    client_secret: process.env.GH_SECRET,
+    code: req.query.code,
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalUrl = `${baseUrl}?${params}`;
+  try {
+    const tokenRequest = await (
+      await fetch(finalUrl, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+      })
+    ).json();
+    const { access_token } = tokenRequest;
+    if (!access_token) {
+      req.flash("error", errorMsg);
+      return res.redirect("/login");
+    }
+
+    const apiUrl = "https://api.github.com/user";
+    const userData = await (
+      await fetch(apiUrl, {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+    const emailData = await (
+      await fetch(`${apiUrl}/emails`, {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+    const emailObj = emailData.find(
+      (email) => email.verified === true && email.primary === true
+    );
+    if (!emailObj) {
+      req.flash("error", "Error: Social login can't be used.");
+      return res.redirect("/login");
+    }
+
+    let user = await User.findOne({ email: emailObj.email });
+    if (!user) {
+      user = await User.create({
+        email: emailObj.email,
+        name: userData.name ? userData.name : "Unknown",
+        avatarUrl: userData.avatar_url ? userData.avatar_url : null,
+        socialLogin: true,
+      });
+    }
+    req.session.loggedIn = true;
+    req.session.loggedInUser = user;
+    req.flash("info", "Login succeeded!");
+    return res.redirect("/");
+  } catch (error) {
+    req.flash("error", errorMsg);
     return res.redirect("/login");
   }
 };
@@ -74,7 +158,7 @@ export const profile = async (req, res) => {
       select: "avatarUrl name",
     });
     if (!user) {
-      req.flash("error", "The user does not exist.");
+      req.flash("error", "Error: The user does not exist.");
       return res.redirect("/");
     }
     return res.render("user/profile", {
@@ -83,7 +167,7 @@ export const profile = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    req.flash("error", "Cannot access");
+    req.flash("error", errorMsg);
     return res.redirect("/");
   }
 };
@@ -94,7 +178,7 @@ export const getUserEdit = async (req, res) => {
     params: { id },
   } = req;
   if (loggedInUser._id !== id) {
-    req.flash("error", "Cannot access");
+    req.flash("error", authorizeMsg);
     return res.redirect("/users/" + id);
   }
   return res.render("user/edit-profile", { pageTitle: "Edit profile" });
@@ -108,7 +192,7 @@ export const postUserEdit = async (req, res) => {
     file,
   } = req;
   if (loggedInUser._id !== id) {
-    req.flash("error", "Cannot access");
+    req.flash("error", authorizeMsg);
     return res.redirect("/users/" + id);
   }
   try {
@@ -121,7 +205,7 @@ export const postUserEdit = async (req, res) => {
     return res.redirect("/users/" + loggedInUser._id);
   } catch (error) {
     console.log(error);
-    req.flash("error", "Error: Please try again.");
+    req.flash("error", errorMsg);
     return res.redirect(`/users/${loggedInUser._id}/edit`);
   }
 };

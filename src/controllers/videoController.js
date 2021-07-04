@@ -1,6 +1,8 @@
 import Video from "../models/Video";
 import User from "../models/User";
 
+const errorMsg = "Error: Please try again.";
+
 export const home = async (req, res) => {
   const videos = await Video.find({})
     .sort({ createdAt: "desc" })
@@ -51,7 +53,7 @@ export const postUpload = async (req, res) => {
     return res.redirect("/users/" + _id);
   } catch (error) {
     console.log(error);
-    req.flash("error", "Error: Please try again.");
+    req.flash("error", errorMsg);
     return res.redirect("/videos/upload");
   }
 };
