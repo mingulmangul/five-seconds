@@ -1,4 +1,4 @@
-const player = document.querySelector(".player");
+const player = document.querySelector(".video__player");
 const video = document.querySelector("video");
 const controls = document.getElementById("videoControls");
 const playBtn = document.getElementById("playBtn");
@@ -107,18 +107,6 @@ const handleMouseLeave = () => {
   controlsTimeout = setTimeout(hideControls, 1000);
 };
 
-const handleKeyDown = (event) => {
-  const { key } = event;
-  if (key === " ") {
-    event.preventDefault();
-    handlePlayBtn();
-  } else if (key === "m") {
-    handleMuteBtn();
-  } else if (key === "f") {
-    handleFullscreenBtn();
-  }
-};
-
 const handleEnded = () => {
   const { id } = player.dataset;
   fetch(`/api/videos/${id}/views`, {
@@ -126,7 +114,6 @@ const handleEnded = () => {
   });
 };
 
-document.addEventListener("keydown", handleKeyDown);
 video.addEventListener("play", handlePlay);
 video.addEventListener("pause", handlePause);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
