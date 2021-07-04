@@ -1,19 +1,20 @@
 mixin video(video)
-    div 
-        a(href="/videos/"+video._id) 
-            img(src="/"+video.thumbnailUrl, alt="Thumbnail of Video", style="height:150px; width:250px;")
-    div 
-        div
-            a(href="/users/"+video.owner._id) 
-                if video.owner.avatarUrl
-                    if video.owner.avatarUrl.startsWith("http")
-                        img(src=video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
-                    else
-                        img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
-                else 
-                    span 😺
-                span=video.owner.name
+    div.video
         div 
             a(href="/videos/"+video._id) 
-                h4=video.title
-                span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}
+                img(src="/"+video.thumbnailUrl, alt="Thumbnail of Video", style="height:150px; width:250px;")
+        div 
+            div
+                a(href="/users/"+video.owner._id) 
+                    if video.owner.avatarUrl
+                        if video.owner.avatarUrl.startsWith("http")
+                            img(src=video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
+                        else
+                            img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
+                    else 
+                        span 😺
+                    span=video.owner.name
+            div 
+                a(href="/videos/"+video._id) 
+                    h4=video.title
+                    span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}
