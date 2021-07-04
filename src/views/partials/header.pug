@@ -12,9 +12,9 @@ header
                     a(href=`/users/${loggedInUser._id}`) 
                         if loggedInUser.avatarUrl
                             if loggedInUser.avatarUrl.startsWith("http")
-                                img(src=loggedInUser.avatarUrl, alt="Avatar", style="width:30px; height:30px; border-radious:50%;")
+                                img(src=loggedInUser.avatarUrl, alt="Avatar")
                             else
-                                img(src="/"+loggedInUser.avatarUrl, alt="Avatar", style="width:30px; height:30px; border-radious:50%;")
+                                img(src="/"+loggedInUser.avatarUrl, alt="Avatar")
                         else 
                             p 😺
                 li 

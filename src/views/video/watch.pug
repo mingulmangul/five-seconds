@@ -4,7 +4,10 @@ include ../mixins/comment
 block main 
     div.video__player(data-id=video._id, data-username=loggedInUser.name)
         div
-            video(src="/"+video.fileUrl, style="width: 600px;")
+            if isHeroku 
+                video(src=video.fileUrl)
+            else
+                video(src="/"+video.fileUrl)
         div#videoControls.video__controls 
             span#playBtn.video__play-btn 
                 i.fas.fa-play
@@ -27,9 +30,9 @@ block main
             a(href="/users/"+video.owner._id) 
                 if video.owner.avatarUrl
                     if video.owner.avatarUrl.startsWith("http")
-                        img(src=video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
+                        img(src=video.owner.avatarUrl, alt="Avatar of Video Owner")
                     else
-                        img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
+                        img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner")
                 else 
                     span 😺
                 span=video.owner.name
