@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
 const errorMsg = "Error: Please try again.";
-const authorizeMsg = "Error: Not authorized.";
 
 export const getSignUp = (req, res) => {
   return res.render("user/signup", { pageTitle: "Sign Up" });
@@ -12,13 +11,13 @@ export const getSignUp = (req, res) => {
 export const postSignUp = async (req, res) => {
   const { email, password, pwConfirm, name, description } = req.body;
   if (password !== pwConfirm) {
-    req.flash("signUpError", "The confirmation does not match the password.");
+    req.flash("formError", "The confirmation does not match the password.");
     return res.redirect("/signup");
   }
   try {
     const exists = await User.exists({ email });
     if (exists) {
-      req.flash("signUpError", "This email already exists.");
+      req.flash("formError", "This email already exists.");
       return res.redirect("/signup");
     }
     await User.create({
@@ -45,15 +44,15 @@ export const postLogin = async (req, res) => {
   try {
     const existUser = await User.findOne({ email });
     if (!existUser) {
-      req.flash("loginError", "This email does not exist.");
+      req.flash("formError", "This email does not exist.");
       return res.redirect("/login");
     } else if (existUser.socialLogin) {
-      req.flash("loginError", "Please use social login.");
+      req.flash("formError", "Please use social login.");
       return res.redirect("/login");
     }
     const match = await bcrypt.compare(password, existUser.password);
     if (!match) {
-      req.flash("loginError", "The password is incorrect.");
+      req.flash("formError", "The password is incorrect.");
       return res.redirect("/login");
     }
     req.session.loggedIn = true;
@@ -146,7 +145,6 @@ export const finishGithubLogin = async (req, res) => {
 export const logout = (req, res) => {
   req.session.loggedIn = false;
   delete req.session.loggedInUser;
-  req.flash("info", "Logout secceeded!");
   return res.redirect("/");
 };
 
@@ -173,35 +171,29 @@ export const profile = async (req, res) => {
 };
 
 export const getUserEdit = async (req, res) => {
-  const {
-    session: { loggedInUser },
-    params: { id },
-  } = req;
-  if (loggedInUser._id !== id) {
-    req.flash("error", authorizeMsg);
-    return res.redirect("/users/" + id);
-  }
   return res.render("user/edit-profile", { pageTitle: "Edit profile" });
 };
 
 export const postUserEdit = async (req, res) => {
   const {
     session: { loggedInUser },
-    params: { id },
     body: { name, description },
     file,
   } = req;
-  if (loggedInUser._id !== id) {
-    req.flash("error", authorizeMsg);
-    return res.redirect("/users/" + id);
-  }
   try {
-    await User.findByIdAndUpdate(id, {
-      name,
-      description,
-      avatarUrl: file ? file.path : loggedInUser.avatarUrl,
-    });
-    req.flash("info", "Profile Updated!");
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        name,
+        description,
+        avatarUrl: file ? file.path : loggedInUser.avatarUrl,
+      },
+      {
+        new: true,
+      }
+    );
+    req.session.loggedInUser = user;
+    req.flash("info", "Profile updated!");
     return res.redirect("/users/" + loggedInUser._id);
   } catch (error) {
     console.log(error);
@@ -210,6 +202,35 @@ export const postUserEdit = async (req, res) => {
   }
 };
 
-export const userDelete = (req, res) => {
-  return res.send("user deleted!");
+export const getChangePassword = (req, res) => {
+  return res.render("user/change-password", { pageTitle: "Change Password" });
+};
+
+export const postChangePassword = async (req, res) => {
+  const {
+    body: { currentPw, newPw, confirmPw },
+    params: { id },
+  } = req;
+  if (newPw !== confirmPw) {
+    req.flash("formError", "The confirmation does not match the password.");
+    return res.redirect(`/users/${id}/change-password`);
+  }
+  try {
+    const user = await User.findById(id);
+    const match = await bcrypt.compare(currentPw, user.password);
+    if (!match) {
+      req.flash("formError", "The current password is incorrect.");
+      return res.redirect(`/users/${id}/change-password`);
+    }
+    user.password = newPw;
+    await user.save();
+    req.flash("info", "Password updated!");
+    return res.redirect("/logout");
+  } catch (error) {
+    console.log(error);
+    req.flash("error", errorMsg);
+    return res.redirect(`/users/${id}/change-password`);
+  }
+
+  return res.end();
 };

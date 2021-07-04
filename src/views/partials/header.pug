@@ -9,7 +9,14 @@ header
                 li 
                     a(href="/videos/upload") Upload Video
                 li 
-                    a(href=`/users/${loggedInUser._id}`) My Profile 
+                    a(href=`/users/${loggedInUser._id}`) 
+                        if loggedInUser.avatarUrl
+                            if loggedInUser.avatarUrl.startsWith("http")
+                                img(src=loggedInUser.avatarUrl, alt="Avatar", style="width:30px; height:30px; border-radious:50%;")
+                            else
+                                img(src="/"+loggedInUser.avatarUrl, alt="Avatar", style="width:30px; height:30px; border-radious:50%;")
+                        else 
+                            p 😺
                 li 
                     a(href="/logout") Log Out
             else 

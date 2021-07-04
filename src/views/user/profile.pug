@@ -4,7 +4,10 @@ include ../mixins/video
 block main 
     div 
         if user.avatarUrl
-            img(src="/"+user.avatarUrl, alt="Avatar", style="width:80px; height:80px; border-radious:50%;")
+            if user.avatarUrl.startsWith("http")
+                img(src=user.avatarUrl, alt="Avatar", style="width:80px; height:80px; border-radious:50%;")
+            else
+                img(src="/"+user.avatarUrl, alt="Avatar", style="width:80px; height:80px; border-radious:50%;")
         else 
             p 😺
         h2=user.name 

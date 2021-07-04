@@ -11,6 +11,7 @@ block main
         label(for="description") Bio
         input#description(type="text", name="description", value=loggedInUser.description, maxLength="200")
         button(type="submit") Save
-        hr
-        div 
-            a(href="/login") Change Password &rarr;
+        if !loggedInUser.socialLogin
+            hr
+            div 
+                a(href="change-password") Change Password &rarr;

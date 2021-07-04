@@ -1,8 +1,8 @@
 extends ../base
 
 block main 
-    if messages.signUpError 
-        p=messages.signUpError
+    if messages.formError 
+        p=messages.formError
     form(method="post") 
         label(for="email") Email
         input#email(type="email", name="email", required)

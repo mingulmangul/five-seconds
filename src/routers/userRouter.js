@@ -3,18 +3,28 @@ import {
   profile,
   getUserEdit,
   postUserEdit,
-  userDelete,
+  getChangePassword,
+  postChangePassword,
 } from "../controllers/userController";
-import { avatarUpload, privateOnly } from "../middlewares";
+import {
+  avatarUpload,
+  nonSocialOnly,
+  ownerOnly,
+  privateOnly,
+} from "../middlewares";
 
 const userRouter = express.Router();
 
 userRouter.get("/:id([0-9a-z]{24})", profile);
 userRouter
   .route("/:id([0-9a-z]{24})/edit")
-  .all(privateOnly)
+  .all(privateOnly, ownerOnly)
   .get(getUserEdit)
   .post(avatarUpload.single("avatar"), postUserEdit);
-userRouter.get("/:id([0-9a-z]{24})/delete", privateOnly, userDelete);
+userRouter
+  .route("/:id([0-9a-z]{24})/change-password")
+  .all(privateOnly, ownerOnly, nonSocialOnly)
+  .get(getChangePassword)
+  .post(postChangePassword);
 
 export default userRouter;

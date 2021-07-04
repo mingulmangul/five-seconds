@@ -5,8 +5,11 @@ mixin video(video)
     div 
         div
             a(href="/users/"+video.owner._id) 
-                if video.owner.avatarUrl
-                    img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
+                if user.avatarUrl
+                    if user.avatarUrl.startsWith("http")
+                        img(src=video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
+                    else
+                        img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner", style="height:30px; width:30px; border-radius:50%;")
                 else 
                     p 😺
         div 

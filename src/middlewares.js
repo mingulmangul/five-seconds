@@ -37,3 +37,24 @@ export const privateOnly = (req, res, next) => {
   }
   return next();
 };
+
+export const ownerOnly = (req, res, next) => {
+  const {
+    session: { loggedInUser },
+    params: { id },
+  } = req;
+  if (String(loggedInUser._id) !== String(id)) {
+    req.flash("error", "Error: Not authorized.");
+    return res.redirect("/");
+  }
+  return next();
+};
+
+export const nonSocialOnly = (req, res, next) => {
+  const { socialLogin } = req.session.loggedInUser;
+  if (socialLogin) {
+    req.flash("error", "Error: Not authorized.");
+    return res.redirect("/");
+  }
+  return next();
+};
