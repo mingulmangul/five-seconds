@@ -1,10 +1,11 @@
 import express from "express";
 import {
-  edit,
   deleteVideo,
   getUpload,
   postUpload,
   watch,
+  getVideoEdit,
+  postVideoEdit,
 } from "../controllers/videoController";
 import { privateOnly, videoUpload } from "../middlewares";
 
@@ -19,7 +20,11 @@ videoRouter
     postUpload
   );
 videoRouter.get("/:id([0-9a-z]{24})", watch);
-videoRouter.get("/:id([0-9a-z]{24})/edit", privateOnly, edit);
+videoRouter
+  .route("/:id([0-9a-z]{24})/edit")
+  .all(privateOnly)
+  .get(getVideoEdit)
+  .post(videoUpload.single("thumbnailFile"), postVideoEdit);
 videoRouter.get("/:id([0-9a-z]{24})/delete", privateOnly, deleteVideo);
 
 export default videoRouter;

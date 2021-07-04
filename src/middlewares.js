@@ -38,7 +38,7 @@ export const privateOnly = (req, res, next) => {
   return next();
 };
 
-export const ownerOnly = (req, res, next) => {
+export const profileOwnerOnly = (req, res, next) => {
   const {
     session: { loggedInUser },
     params: { id },

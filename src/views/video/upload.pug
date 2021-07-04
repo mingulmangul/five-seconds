@@ -7,9 +7,9 @@ block main
         label(for="thumbnailFile") Thumbnail Image
         input#thumbnailFile(type="file", name="thumbnailFile", accept="image/*", required)
         label(for="title") Title
-        input#title(type="text", name="title", max="100", placeholder="Title of Video", required)
+        input#title(type="text", name="title", maxlength="100", required)
         label(for="description") Description
-        input#description(type="text", name="description", placeholder="Description of Video", max="1000")
+        input#description(type="text", name="description", maxlength="1000")
         label(for="hashtags") Hashtags
         input#hashtags(type="text", name="hashtags", placeholder="Hashtags are separated by comma.")
         button(type="submit") Upload

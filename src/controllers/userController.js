@@ -12,13 +12,13 @@ export const postSignUp = async (req, res) => {
   const { email, password, pwConfirm, name, description } = req.body;
   if (password !== pwConfirm) {
     req.flash("formError", "The confirmation does not match the password.");
-    return res.redirect("/signup");
+    return res.status(400).redirect("/signup");
   }
   try {
     const exists = await User.exists({ email });
     if (exists) {
       req.flash("formError", "This email already exists.");
-      return res.redirect("/signup");
+      return res.status(400).redirect("/signup");
     }
     await User.create({
       email,
@@ -31,7 +31,7 @@ export const postSignUp = async (req, res) => {
   } catch (error) {
     console.log(error);
     req.flash("error", errorMsg);
-    return res.redirect("/signup");
+    return res.status(400).redirect("/signup");
   }
 };
 
@@ -45,15 +45,15 @@ export const postLogin = async (req, res) => {
     const existUser = await User.findOne({ email });
     if (!existUser) {
       req.flash("formError", "This email does not exist.");
-      return res.redirect("/login");
+      return res.status(400).redirect("/login");
     } else if (existUser.socialLogin) {
       req.flash("formError", "Please use social login.");
-      return res.redirect("/login");
+      return res.status(400).redirect("/login");
     }
     const match = await bcrypt.compare(password, existUser.password);
     if (!match) {
       req.flash("formError", "The password is incorrect.");
-      return res.redirect("/login");
+      return res.status(400).redirect("/login");
     }
     req.session.loggedIn = true;
     req.session.loggedInUser = existUser;
@@ -61,7 +61,7 @@ export const postLogin = async (req, res) => {
     return res.redirect("/");
   } catch (error) {
     req.flash("error", errorMsg);
-    return res.redirect("/login");
+    return res.status(400).redirect("/login");
   }
 };
 
@@ -97,7 +97,7 @@ export const finishGithubLogin = async (req, res) => {
     const { access_token } = tokenRequest;
     if (!access_token) {
       req.flash("error", errorMsg);
-      return res.redirect("/login");
+      return res.status(400).redirect("/login");
     }
 
     const apiUrl = "https://api.github.com/user";
@@ -120,7 +120,7 @@ export const finishGithubLogin = async (req, res) => {
     );
     if (!emailObj) {
       req.flash("error", "Error: Social login can't be used.");
-      return res.redirect("/login");
+      return res.status(400).redirect("/login");
     }
 
     let user = await User.findOne({ email: emailObj.email });
@@ -138,7 +138,7 @@ export const finishGithubLogin = async (req, res) => {
     return res.redirect("/");
   } catch (error) {
     req.flash("error", errorMsg);
-    return res.redirect("/login");
+    return res.status(400).redirect("/login");
   }
 };
 
@@ -160,7 +160,7 @@ export const profile = async (req, res) => {
     });
     if (!user) {
       req.flash("error", "Error: The user does not exist.");
-      return res.redirect("/");
+      return res.status(404).redirect("/");
     }
     return res.render("user/profile", {
       pageTitle: user.name,
@@ -169,7 +169,7 @@ export const profile = async (req, res) => {
   } catch (error) {
     console.log(error);
     req.flash("error", errorMsg);
-    return res.redirect("/");
+    return res.status(400).redirect("/");
   }
 };
 
@@ -201,7 +201,7 @@ export const postUserEdit = async (req, res) => {
   } catch (error) {
     console.log(error);
     req.flash("error", errorMsg);
-    return res.redirect(`/users/${loggedInUser._id}/edit`);
+    return res.status(400).redirect(`/users/${loggedInUser._id}/edit`);
   }
 };
 
@@ -216,14 +216,14 @@ export const postChangePassword = async (req, res) => {
   } = req;
   if (newPw !== confirmPw) {
     req.flash("formError", "The confirmation does not match the password.");
-    return res.redirect(`/users/${id}/change-password`);
+    return res.status(400).redirect(`/users/${id}/change-password`);
   }
   try {
     const user = await User.findById(id);
     const match = await bcrypt.compare(currentPw, user.password);
     if (!match) {
       req.flash("formError", "The current password is incorrect.");
-      return res.redirect(`/users/${id}/change-password`);
+      return res.status(400).redirect(`/users/${id}/change-password`);
     }
     user.password = newPw;
     await user.save();
@@ -233,6 +233,6 @@ export const postChangePassword = async (req, res) => {
   } catch (error) {
     console.log(error);
     req.flash("error", errorMsg);
-    return res.redirect(`/users/${id}/change-password`);
+    return res.status(400).redirect(`/users/${id}/change-password`);
   }
 };

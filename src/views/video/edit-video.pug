@@ -1,4 +1,16 @@
 extends ../base
 
 block main 
-    
+    form(method="post", enctype="multipart/form-data") 
+        label(for="thumbnailFile") Thumbnail Image
+        input#thumbnailFile(type="file", name="thumbnailFile", accept="image/*")
+        label(for="title") Title
+        input#title(type="text", name="title", maxlength="100", value=video.title, required)
+        label(for="description") Description
+        input#description(type="text", name="description", maxlength="1000", value=video.description)
+        label(for="hashtags") Hashtags
+        input#hashtags(type="text", name="hashtags", placeholder="Hashtags are separated by comma.", value=video.hashtags.join())
+        button(type="submit") Save
+        hr
+        div 
+            a(href=`/videos/${video._id}/delete`) Delete Video &rarr;
