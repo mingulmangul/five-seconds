@@ -50,7 +50,7 @@ export const postLogin = async (req, res) => {
       return res.redirect("/login");
     }
     req.session.loggedIn = true;
-    req.session.user = existUser;
+    req.session.loggedInUser = existUser;
     req.flash("info", "Login succeeded!");
     return res.redirect("/");
   } catch (error) {
@@ -61,7 +61,7 @@ export const postLogin = async (req, res) => {
 
 export const logout = (req, res) => {
   req.session.loggedIn = false;
-  delete req.session.user;
+  delete req.session.loggedInUser;
   req.flash("info", "Logout secceeded!");
   return res.redirect("/");
 };
@@ -69,17 +69,17 @@ export const logout = (req, res) => {
 export const profile = async (req, res) => {
   const { id } = req.params;
   try {
-    const owner = await User.findById(id).populate("videos").populate({
+    const user = await User.findById(id).populate("videos").populate({
       path: "owner",
       select: "avatarUrl name",
     });
-    if (!owner) {
+    if (!user) {
       req.flash("error", "The user does not exist.");
       return res.redirect("/");
     }
     return res.render("user/profile", {
-      pageTitle: owner.name,
-      owner,
+      pageTitle: user.name,
+      user,
     });
   } catch (error) {
     console.log(error);
@@ -88,8 +88,42 @@ export const profile = async (req, res) => {
   }
 };
 
-export const userEdit = (req, res) => {
+export const getUserEdit = async (req, res) => {
+  const {
+    session: { loggedInUser },
+    params: { id },
+  } = req;
+  if (loggedInUser._id !== id) {
+    req.flash("error", "Cannot access");
+    return res.redirect("/users/" + id);
+  }
   return res.render("user/edit-profile", { pageTitle: "Edit profile" });
+};
+
+export const postUserEdit = async (req, res) => {
+  const {
+    session: { loggedInUser },
+    params: { id },
+    body: { name, description },
+    file,
+  } = req;
+  if (loggedInUser._id !== id) {
+    req.flash("error", "Cannot access");
+    return res.redirect("/users/" + id);
+  }
+  try {
+    await User.findByIdAndUpdate(id, {
+      name,
+      description,
+      avatarUrl: file ? file.path : loggedInUser.avatarUrl,
+    });
+    req.flash("info", "Profile Updated!");
+    return res.redirect("/users/" + loggedInUser._id);
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Error: Please try again.");
+    return res.redirect(`/users/${loggedInUser._id}/edit`);
+  }
 };
 
 export const userDelete = (req, res) => {

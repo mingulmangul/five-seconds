@@ -3,13 +3,17 @@ include ../mixins/video
 
 block main 
     div 
-        if owner.avatarUrl
-            img(src="/"+owner.avatarUrl, alt="Avatar", style="width:80px; height:80px; border-radious:50%;")
+        if user.avatarUrl
+            img(src="/"+user.avatarUrl, alt="Avatar", style="width:80px; height:80px; border-radious:50%;")
         else 
             p 😺
-        h2=owner.name 
+        h2=user.name 
+        p=user.description
+        if String(loggedInUser._id) === String(user._id)
+            a(href=`/users/${user._id}/edit`) Edit Profile
+    hr
     div 
-        each video in owner.videos 
+        each video in user.videos 
             +video(video)
         else
             p No video
