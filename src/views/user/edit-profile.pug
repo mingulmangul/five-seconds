@@ -1,7 +1,7 @@
 extends ../base
 
 block main 
-    form(method="post", enctype="multipart/form-data") 
+    form(method="post", enctype="multipart/form-data").edit-profile__form
         label(for="avatar") Avatar Image
         input#avatar(type="file", name="avatar", accept="image/*")
         label(for="email") Email
@@ -13,5 +13,5 @@ block main
         button(type="submit") Save
         if !loggedInUser.socialLogin
             hr
-            div 
+            div.edit-profile__password
                 a(href="change-password") Change Password &rarr;

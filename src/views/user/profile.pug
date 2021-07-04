@@ -2,7 +2,7 @@ extends ../base
 include ../mixins/video
 
 block main 
-    div 
+    div.profile__data
         if user.avatarUrl
             if user.avatarUrl.startsWith("http")
                 img(src=user.avatarUrl, alt="Avatar", style="width:80px; height:80px; border-radious:50%;")
@@ -15,10 +15,10 @@ block main
         if String(loggedInUser._id) === String(user._id)
             a(href=`/users/${user._id}/edit`) Edit Profile
     hr
-    div 
+    div.video-grid 
         each video in user.videos.reverse()
             +video(video)
             hr
         else
-            p No video
+            p.empty__message No video
             a(href="/videos/upload") Go to upload &rarr;

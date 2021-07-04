@@ -1,11 +1,39 @@
 // Config
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import "./config/_reset.scss";
-@import "./config/_variables.scss";
 
 // Components
+@import "./components/header.scss";
+@import "./components/footer.scss";
 @import "./components/video.scss";
+@import "./components/shared.scss";
+@import "./components/form.scss";
+@import "./components/social-login.scss";
+@import "./components/video-player.scss";
+@import "./components/message.scss";
+@import "./components/comment.scss";
 
 // Screens
+@import "./screens/search.scss";
+@import "./screens/profile.scss";
+@import "./screens/edit-profile.scss";
+@import "./screens/upload.scss";
+
+// Defaults
+a {
+  text-decoration: none;
+  color: inherit;
+}
 
 body {
+  font-family: "Roboto", sans-serif;
+  background-color: #0e1117;
+  color: white;
+}
+
+main {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 50px;
 }
