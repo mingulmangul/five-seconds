@@ -6,7 +6,7 @@ const addComment = (text, id) => {
   const videoComments = document.querySelector(".video__comments ul");
   const newComment = document.createElement("li");
   newComment.className = "comment";
-  newComment.dataset.id = id;
+  newComment.setAttribute("id", id);
   const commentText = document.createElement("div");
   commentText.className = "comment__text";
   const commentIcon = document.createElement("i");
@@ -21,6 +21,7 @@ const addComment = (text, id) => {
   timeSpan.innerText = " " + new Date().toString().substr(4, 11);
   const deleteSpanIcon = document.createElement("i");
   deleteSpanIcon.className = "fas fa-trash-alt";
+  deleteSpanIcon.setAttribute("data-id", id);
   const deleteSpan = document.createElement("span");
   deleteSpan.className = "comment__deleteBtn";
   deleteSpan.addEventListener("click", handleDeleteBtn);
