@@ -2,6 +2,7 @@ import Video from "../models/Video";
 import User from "../models/User";
 import Comment from "../models/Comment";
 
+const isHeroku = process.env.NODE_ENV === "production";
 const errorMsg = "Error: Please try again.";
 
 export const home = async (req, res) => {
@@ -95,7 +96,11 @@ export const postVideoEdit = async (req, res) => {
       return res.status(403).redirect("/");
     }
     await video.updateOne({
-      thumbnailUrl: file ? file.path : video.thumbnailUrl,
+      thumbnailUrl: file
+        ? isHeroku
+          ? file.location
+          : file.path
+        : video.thumbnailUrl,
       title,
       description,
       hashtags: Video.formatHashtags(hashtags),
@@ -147,8 +152,10 @@ export const postUpload = async (req, res) => {
   try {
     const owner = await User.findById(_id);
     const video = await Video.create({
-      fileUrl: videoFile[0].path,
-      thumbnailUrl: thumbnailFile[0].path,
+      fileUrl: isHeroku ? videoFile[0].location : videoFile[0].path,
+      thumbnailUrl: isHeroku
+        ? thumbnailFile[0].location
+        : thumbnailFile[0].path,
       title,
       description,
       hashtags: Video.formatHashtags(hashtags),

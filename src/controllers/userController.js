@@ -2,6 +2,7 @@ import User from "../models/User";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
+const isHeroku = process.env.NODE_ENV === "production";
 const errorMsg = "Error: Please try again.";
 
 export const getSignUp = (req, res) => {
@@ -189,7 +190,11 @@ export const postUserEdit = async (req, res) => {
       {
         name,
         description,
-        avatarUrl: file ? file.path : loggedInUser.avatarUrl,
+        avatarUrl: file
+          ? isHeroku
+            ? file.location
+            : file.path
+          : loggedInUser.avatarUrl,
       },
       {
         new: true,
