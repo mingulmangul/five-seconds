@@ -151,9 +151,12 @@ export const logout = (req, res) => {
 export const profile = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findById(id).populate("videos").populate({
-      path: "owner",
-      select: "avatarUrl name",
+    const user = await User.findById(id).populate({
+      path: "videos",
+      populate: {
+        path: "owner",
+        select: "avatarUrl name",
+      },
     });
     if (!user) {
       req.flash("error", "Error: The user does not exist.");
@@ -224,6 +227,7 @@ export const postChangePassword = async (req, res) => {
     }
     user.password = newPw;
     await user.save();
+
     req.flash("info", "Password updated!");
     return res.redirect("/logout");
   } catch (error) {
@@ -231,6 +235,4 @@ export const postChangePassword = async (req, res) => {
     req.flash("error", errorMsg);
     return res.redirect(`/users/${id}/change-password`);
   }
-
-  return res.end();
 };

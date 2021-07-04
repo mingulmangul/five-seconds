@@ -1,0 +1,15 @@
+extends ../base
+include ../mixins/video
+
+block main 
+    form
+        input(type="text", name="keyword", placeholder="Search")
+        button(type="submit") Search 
+    hr
+    div 
+        each video in videos
+            +video(video)
+            hr
+        else 
+            if !keyExists
+                p Sorry Not Found

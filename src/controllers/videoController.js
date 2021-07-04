@@ -10,8 +10,17 @@ export const home = async (req, res) => {
   return res.render("video/home", { pageTitle: "Home", videos });
 };
 
-export const search = (req, res) => {
-  return res.render("video/search", { pageTitle: "Search" });
+export const search = async (req, res) => {
+  const { keyword } = req.query;
+  let videos = [];
+  if (keyword) {
+    videos = await Video.find({
+      title: { $regex: new RegExp(keyword, "i") },
+    })
+      .sort({ createdAt: "desc" })
+      .populate({ path: "owner", select: "name avatarUrl" });
+  }
+  return res.render("video/search", { pageTitle: "Search", videos });
 };
 
 export const watch = (req, res) => {
@@ -35,7 +44,7 @@ export const postUpload = async (req, res) => {
     body: { title, description, hashtags },
     files: { videoFile, thumbnailFile },
     session: {
-      user: { _id },
+      loggedInUser: { _id },
     },
   } = req;
   try {

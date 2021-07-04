@@ -16,8 +16,9 @@ block main
             a(href=`/users/${user._id}/edit`) Edit Profile
     hr
     div 
-        each video in user.videos 
+        each video in user.videos.reverse()
             +video(video)
+            hr
         else
             p No video
             a(href="/videos/upload") Go to upload &rarr;
