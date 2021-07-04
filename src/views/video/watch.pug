@@ -4,10 +4,7 @@ include ../mixins/comment
 block main 
     div.video__player(data-id=video._id, data-username=loggedInUser.name)
         div
-            if !isHeroku 
-                video(src=video.fileUrl)
-            else
-                video(src="/"+video.fileUrl)
+            video(src=video.fileUrl)
         div#videoControls.video__controls 
             div.video-controls__play
                 span#playBtn.video-controls__play-btn

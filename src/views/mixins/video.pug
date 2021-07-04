@@ -2,10 +2,7 @@ mixin video(video)
     div.video
         div.video__thumbnail 
             a(href="/videos/"+video._id) 
-                if !isHeroku
-                    img(src=video.thumbnailUrl, alt="Thumbnail of Video")
-                else
-                    img(src="/"+video.thumbnailUrl, alt="Thumbnail of Video")
+                img(src=video.thumbnailUrl, alt="Thumbnail of Video")
         div
             div.video__owner-data
                 a(href="/users/"+video.owner._id) 
