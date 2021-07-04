@@ -204,3 +204,33 @@ export const createComment = async (req, res) => {
     return res.sendStatus(400);
   }
 };
+
+export const deleteComment = async (req, res) => {
+  const {
+    body: { commentId },
+    session: { loggedInUser },
+    params: { id },
+  } = req;
+  try {
+    const video = await Video.findById(id);
+    if (!video) {
+      req.flash("error", "Error: The video not found.");
+      return res.status(404).redirect("/");
+    }
+    const comment = await Comment.findById(commentId);
+    if (String(loggedInUser._id) !== String(comment.owner)) {
+      req.flash("error", "Error: Not authorized.");
+      return res.status(403).redirect("/");
+    }
+    video.comments = video.comments.filter(
+      (comment) => String(comment) !== String(commentId)
+    );
+    await video.save();
+    await comment.deleteOne();
+    req.flash("info", "Comment is deleted!");
+    return res.sendStatus(201);
+  } catch (error) {
+    req.flash("error", errorMsg);
+    return res.sendStatus(400);
+  }
+};
