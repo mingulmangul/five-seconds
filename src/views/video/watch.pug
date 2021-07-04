@@ -1,11 +1,27 @@
 extends ../base
 
 block main 
-    div
-        video(src="/"+video.fileUrl, style="width: 600px;")
-        div 
-            button Play
-            button Mute 
+    div.player(data-id=video._id, data-username=loggedInUser.name)
+        div
+            video(src="/"+video.fileUrl, style="width: 600px;")
+        div#videoControls.player__controls 
+            span#playBtn.player__play-btn 
+                i.fas.fa-play
+            div.player__playtime
+                span#currentTime 00:00
+                span  / 
+                span#totalTime 00:00
+            input#timeline.player__timeline(type="range", value="0", min="0", step="1")
+            div.player__volume
+                span#muteBtn 
+                    i.fas.fa-volume-up
+                input#volumeRange.player__volume-range(type="range", min="0", max="1", step="0.1")
+            div.player__fullscreen
+                span#fullscreenBtn 
+                    i.fas.fa-expand
+
+
+//-            
     div 
         div 
             h2=video.title
@@ -24,3 +40,6 @@ block main
             hr
             div 
                 a(href=`/videos/${video._id}/edit`) Edit Video &rarr;
+
+block scripts 
+    script(src="/statics/js/videoPlayer.js") 

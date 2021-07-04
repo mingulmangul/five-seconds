@@ -185,7 +185,7 @@ export const postUserEdit = async (req, res) => {
   } = req;
   try {
     const user = await User.findByIdAndUpdate(
-      id,
+      loggedInUser._id,
       {
         name,
         description,
