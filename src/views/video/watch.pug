@@ -53,7 +53,7 @@ block main
                 textarea.form__comment(placeholder="Write your comments here")
                 button.form__button(type="submit") Add comment
             else 
-                div
+                div.comments--not-login
                     span.form__convert Do you want to leave a comment?
                     a.form__convert--link(href="/login") Go to Login
         div.comments

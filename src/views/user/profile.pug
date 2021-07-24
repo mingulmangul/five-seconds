@@ -2,6 +2,7 @@ extends ../base
 include ../mixins/video
 
 block main 
+    div.profile
         div.avatar.avatar--profile
             if user.avatarUrl
                 if user.avatarUrl.startsWith("http")
@@ -22,5 +23,4 @@ block main
             each video in user.videos.reverse()
                 +video(video)
             else
-                div
-                    p.video-grid__not-found No video
+                p.video-grid__not-found No video
