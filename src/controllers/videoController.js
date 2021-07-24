@@ -23,7 +23,7 @@ export const search = async (req, res) => {
         .sort({ createdAt: "desc" })
         .populate({ path: "owner", select: "name avatarUrl" });
     }
-    return res.render("video/search", { pageTitle: "Search", videos });
+    return res.render("video/search", { pageTitle: "Search", videos, keyword });
   } catch (error) {
     req.flash("error", errorMsg);
     return res.status(400).redirect("/search");

@@ -1,18 +1,20 @@
 extends ../base
 
 block main 
-    if messages.formError 
-        p=messages.formError
-    form(method="post") 
+    form.form(method="post") 
+        if messages.formError 
+            div.messages__error--form
+                i.fas.fa-exclamation-circle
+                span=messages.formError
         label(for="email") Email
         input#email(type="email", name="email", required)
         label(for="password") Password
         input#password(type="password", name="password", required)
-        button(type="submit") Log In
-        hr
         div
-            a(href="/login/github/start") Login with GitHub &rarr;
+            span.form__convert Don’t have an account?
+            a.form__convert--link(href="/signup") Go to Sign up
+        button.form__button(type="submit") Log In
         hr
-        div
-            p Don’t have an account?
-            a(href="/signup") Sign up &rarr;
+        div.form__button.form__button--long
+            i.fab.fa-github
+            a(href="/login/github/start") Log In with GitHub

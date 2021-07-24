@@ -1,21 +1,25 @@
 extends ../base
 
 block main 
-    if messages.formError 
-        p=messages.formError
-    form(method="post") 
+    form.form(method="post") 
+        if messages.formError 
+            div.messages__error--form
+                i.fas.fa-exclamation-circle
+                span=messages.formError
         label(for="email") Email
         input#email(type="email", name="email", required)
-        label(for="password") Password
-        input#password(type="password", name="password", required)
-        label(for="pwConfirm") Password Confirm
-        input#pwConfirm(type="password", name="pwConfirm", required)
+        div.form__password
+            div
+                label(for="password") Password
+                input#password(type="password", name="password", required)
+            div
+                label(for="pwConfirm") Confirm
+                input#pwConfirm(type="password", name="pwConfirm", required)
         label(for="name") Name
         input#name(type="text", name="name", maxlength="30", required)
-        label(for="description") Bio
-        input#description(type="text", name="description", maxlength="200")
-        button(type="submit") Sign Up
-        hr
+        label.form--optional(for="description") Bio
+        input.form--optional#description(type="text", name="description", maxlength="200")
         div
-            p Already have an account?
-            a(href="/login") Log In &rarr;
+            span.form__convert Already have an account?
+            a.form__convert--link(href="/login") Go to Login
+        button.form__button(type="submit") Sign Up

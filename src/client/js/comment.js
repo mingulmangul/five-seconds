@@ -1,38 +1,41 @@
-const player = document.querySelector(".video__player");
+const player = document.querySelector(".video-player");
 const form = document.getElementById("commentForm");
-const deleteSpans = document.querySelectorAll(".comment__deleteBtn");
+const textarea = form.querySelector("textarea");
+const deleteSpans = document.querySelectorAll(".comment__delete");
 
 const addComment = (text, id) => {
-  const videoComments = document.querySelector(".video__comments ul");
+  const videoComments = document.querySelector(".comments ul");
   const newComment = document.createElement("li");
   newComment.className = "comment";
   newComment.setAttribute("id", id);
-  const commentText = document.createElement("div");
-  commentText.className = "comment__text";
+  const commentInfo = document.createElement("div");
+  commentInfo.className = "comment__info";
   const commentIcon = document.createElement("i");
   commentIcon.className = "fas fa-comment";
-  const textSpan = document.createElement("span");
-  textSpan.innerText = ` ${text}`;
   const ownerSpan = document.createElement("span");
   ownerSpan.className = "comment__owner";
   ownerSpan.innerText = player.dataset.username;
   const timeSpan = document.createElement("span");
-  timeSpan.className = "comment__created-at";
-  timeSpan.innerText = " " + new Date().toString().substr(4, 11);
+  timeSpan.innerText = new Date().toString().substr(4, 11);
+  const deleteSpan = document.createElement("span");
+  deleteSpan.className = "comment__delete";
+  deleteSpan.setAttribute("data-id", id);
+  deleteSpan.addEventListener("click", handleDeleteBtn);
   const deleteSpanIcon = document.createElement("i");
   deleteSpanIcon.className = "fas fa-trash-alt";
-  deleteSpanIcon.setAttribute("data-id", id);
-  const deleteSpan = document.createElement("span");
-  deleteSpan.className = "comment__deleteBtn";
-  deleteSpan.addEventListener("click", handleDeleteBtn);
+  const commentText = document.createElement("div");
+  commentText.className = "comment__text";
+  const comment = document.createElement("p");
+  comment.innerText = text;
 
+  newComment.appendChild(commentInfo);
+  commentInfo.appendChild(commentIcon);
+  commentInfo.appendChild(ownerSpan);
+  commentInfo.appendChild(timeSpan);
+  commentInfo.appendChild(deleteSpan);
   deleteSpan.appendChild(deleteSpanIcon);
-  commentText.appendChild(commentIcon);
-  commentText.appendChild(textSpan);
   newComment.appendChild(commentText);
-  newComment.appendChild(ownerSpan);
-  newComment.appendChild(timeSpan);
-  newComment.appendChild(deleteSpan);
+  commentText.appendChild(comment);
   videoComments.prepend(newComment);
 };
 
@@ -63,6 +66,12 @@ const handleSubmit = async (event) => {
   }
 };
 
+const handleInput = (event) => {
+  const { target } = event;
+  target.style.height = "1px";
+  target.style.height = target.scrollHeight + "px";
+};
+
 const handleDeleteBtn = async (event) => {
   const videoId = player.dataset.id;
   const commentId = event.target.dataset.id;
@@ -80,6 +89,7 @@ const handleDeleteBtn = async (event) => {
 
 if (form) {
   form.addEventListener("submit", handleSubmit);
+  textarea.addEventListener("input", handleInput);
 }
 deleteSpans.forEach((deleteSpan) => {
   deleteSpan.addEventListener("click", handleDeleteBtn);

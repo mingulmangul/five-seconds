@@ -1,17 +1,16 @@
 extends ../base
 
 block main 
-    form(method="post", enctype="multipart/form-data") 
+    form.form(method="post", enctype="multipart/form-data") 
         label(for="avatar") Avatar Image
         input#avatar(type="file", name="avatar", accept="image/*")
         label(for="email") Email
         input#email(type="email", name="email", disabled, value=loggedInUser.email)
         label(for="name") Name
         input#name(type="text", name="name", value=loggedInUser.name, maxlength="30", required)
-        label(for="description") Bio
-        input#description(type="text", name="description", value=loggedInUser.description, maxLength="200")
-        button(type="submit") Save
+        label.form--optional(for="description") Bio
+        input.form--optional#description(type="text", name="description", value=loggedInUser.description, maxLength="200")
         if !loggedInUser.socialLogin
-            hr
             div 
-                a(href="change-password") Change Password &rarr;
+                a.form__convert--link(href="change-password") Change Password
+        button.form__button(type="submit") Save

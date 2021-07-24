@@ -1,23 +1,23 @@
 mixin video(video)
-    div.video
-        div 
+    div.thumbnail
+        div.thumbnail__image
             a(href="/videos/"+video._id) 
-                if isHeroku
+                if video.thumbnailUrl.startsWith("http")
                     img(src=video.thumbnailUrl, alt="Thumbnail of Video")
                 else
                     img(src="/"+video.thumbnailUrl, alt="Thumbnail of Video")
         div 
-            div
-                a(href="/users/"+video.owner._id) 
+            div.thumbnail__owner
+                a.avatar.avatar--thumbnail(href="/users/"+video.owner._id) 
                     if video.owner.avatarUrl
                         if video.owner.avatarUrl.startsWith("http")
                             img(src=video.owner.avatarUrl, alt="Avatar of Video Owner")
                         else
                             img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner")
                     else 
-                        span 😺
-                    span=video.owner.name
-            div 
+                        i.fas.fa-user
+                    span.thumbnail__owner--name=video.owner.name
+            div
                 a(href="/videos/"+video._id) 
-                    h4=video.title
-                    span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}
+                    h4.thumbnail__title=video.title
+                    p.thumbnail__views #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}

@@ -1,0 +1,40 @@
+.avatar {
+    img, i {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+    }
+    i {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 75px;
+    }
+}
+.avatar--header {
+    img, i {
+        width: 30px;
+        height: 30px;
+    }
+    i {
+        font-size: 20px;
+    }
+}
+.avatar--thumbnail {
+    img, i {
+        width: 25px;
+        height: 25px;
+    }
+    i {
+        font-size: 16px;
+    }
+}
+.avatar--video {
+    img, i {
+        width: 40px;
+        height: 40px;
+    }
+    i {
+        font-size: 27px;
+    }
+}

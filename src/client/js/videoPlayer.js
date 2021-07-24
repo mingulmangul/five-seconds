@@ -1,4 +1,4 @@
-const player = document.querySelector(".video__player");
+const player = document.querySelector(".video-player");
 const video = document.querySelector("video");
 const controls = document.getElementById("videoControls");
 const playBtn = document.getElementById("playBtn");

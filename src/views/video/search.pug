@@ -2,14 +2,12 @@ extends ../base
 include ../mixins/video
 
 block main 
-    form
-        input(type="text", name="keyword", placeholder="Search")
-        button(type="submit") Search 
-    hr
-    div 
+    form.form--search
+        input.form--search__bar(type="text", name="keyword", placeholder="Search", value=keyword)
+        button.form--search__button(type="submit") 
+            i.fas.fa-search
+    div.video-grid 
         each video in videos
             +video(video)
-            hr
         else 
-            if !keyExists
-                p Sorry Not Found
+            p.video-grid__not-found Sorry Not Found

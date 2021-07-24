@@ -1,26 +1,28 @@
 header 
     nav 
         ul 
-            li 
-                a(href="/") Home 
-            li 
-                a(href="/search") Search
-            if loggedIn
-                li 
-                    a(href="/videos/upload") Upload Video
-                li 
-                    a(href=`/users/${loggedInUser._id}`) 
-                        if loggedInUser.avatarUrl
-                            if loggedInUser.avatarUrl.startsWith("http")
-                                img(src=loggedInUser.avatarUrl, alt="Avatar")
-                            else
-                                img(src="/"+loggedInUser.avatarUrl, alt="Avatar")
-                        else 
-                            p 😺
-                li 
-                    a(href="/logout") Log Out
-            else 
-                li 
-                    a(href="/signup") Sign Up 
-                li 
-                    a(href="/login") Log In 
+            li
+                a.header__logo(href="/") 5seconds 
+            li
+                ul.header__menu
+                    li
+                        a(href="/search") Search
+                    if loggedIn
+                        li 
+                            a(href="/videos/upload") Upload Video
+                        li 
+                            a.avatar.avatar--header(href=`/users/${loggedInUser._id}`) 
+                                if loggedInUser.avatarUrl
+                                    if loggedInUser.avatarUrl.startsWith("http")
+                                        img(src=loggedInUser.avatarUrl, alt="Avatar")
+                                    else
+                                        img(src="/"+loggedInUser.avatarUrl, alt="Avatar")
+                                else 
+                                    i.fas.fa-user
+                        li 
+                            a(href="/logout") Log Out
+                    else 
+                        li 
+                            a(href="/signup") Sign Up 
+                        li 
+                            a(href="/login") Log In 

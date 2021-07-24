@@ -1,0 +1,9 @@
+mixin message()
+    if messages.info 
+        div.messages.messages__info
+            i.fas.fa-check
+            span=messages.info
+    if messages.error
+        div.messages.messages__error
+            i.fas.fa-times
+            span=messages.error

@@ -1,0 +1,120 @@
+form input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 3px solid $rose;
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in-out;
+  &:focus {
+    outline: none;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+  }
+  &:not(.form--search__bar):valid {
+    opacity: 1;
+  }
+}
+.form--search {
+  width: 500px;
+  margin: 0 auto 50px;
+  position: relative;
+}
+.form--search__bar {
+  display: block;
+  width: 95%;
+  &::placeholder {
+    color: $salmon;
+  }
+}
+.form--search__button {
+  position: absolute;
+  top: 7px;
+  right: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  background-color: white;
+  color: $salmon;
+}
+.form {
+  width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  color: $rose;
+  font-size: 14px;
+  hr {
+    width: 100%;
+  }
+}
+.form__password {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  input {
+    width: 90%;
+  }
+}
+label.form--optional {
+  color: rgba($color: #000000, $alpha: 0.7);
+}
+input.form--optional {
+  border-width: 2px;
+  border-color: grey;
+  color: black;
+  &::placeholder {
+    color: rgba($color: #000000, $alpha: 0.4);
+  }
+}
+.form__convert {
+  color: grey;
+  margin-right: 5px;
+}
+.form__convert--link {
+  font-weight: 600;
+}
+.form__button {
+  align-self: flex-end;
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin: 15px 5px;
+  text-align: center;
+  font-size: 14px;
+  background-color: $salmon;
+  color: white;
+  opacity: 0.8;
+  transition: opacity 0.2s ease-in-out;
+  &:hover,
+  &:focus {
+    outline: none;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
+}
+.form__button--long {
+  display: block;
+  align-self: unset;
+  padding: 15px;
+  background-color: $rose;
+  opacity: 0.9;
+  i {
+    margin-right: 7px;
+  }
+}
+.form__comment {
+  resize: none;
+  width: 90%;
+  border: none;
+  border-bottom: 2px solid $peach;
+  margin-top: 30px;
+  padding: 10px 20px;
+  font-size: 14px;
+  transition: background-color 0.3s ease-in-out;
+  &:focus,
+  &:hover {
+    outline: none;
+    background-color: rgba($color: $ivory, $alpha: 0.3);
+  }
+}

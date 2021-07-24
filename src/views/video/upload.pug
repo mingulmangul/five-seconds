@@ -1,23 +1,22 @@
 extends ../base
 
 block main 
-    div.upload__container
-        div.upload__video
-            video#preview
-            br
-            button#recordBtn.social__btn Start Recording
-        form(method="post", enctype="multipart/form-data") 
-            label(for="videoFile") Video File
-            input#videoFile(type="file", name="videoFile", accept="video/*", required)
-            label(for="thumbnailFile") Thumbnail Image
-            input#thumbnailFile(type="file", name="thumbnailFile", accept="image/*", required)
-            label(for="title") Title
-            input#title(type="text", name="title", maxlength="100", required)
-            label(for="description") Description
-            input#description(type="text", name="description", maxlength="1000")
-            label(for="hashtags") Hashtags
-            input#hashtags(type="text", name="hashtags", placeholder="Hashtags are separated by comma.")
-            button(type="submit") Upload
+    div.form.video-recorder
+        p Record Video
+        video#preview
+        button#recordBtn.form__button Start Recording
+    form.form(method="post", enctype="multipart/form-data") 
+        label(for="videoFile") Video File
+        input#videoFile(type="file", name="videoFile", accept="video/*", required)
+        label(for="thumbnailFile") Thumbnail Image
+        input#thumbnailFile(type="file", name="thumbnailFile", accept="image/*", required)
+        label(for="title") Title
+        input#title(type="text", name="title", maxlength="100", required)
+        label.form--optional(for="description") Description
+        input.form--optional#description(type="text", name="description", maxlength="1000")
+        label.form--optional(for="hashtags") Hashtags
+        input.form--optional#hashtags(type="text", name="hashtags", placeholder="Hashtags are separated by comma.")
+        button.form__button(type="submit") Upload
 
 block scripts 
     script(src="/statics/js/videoRecorder.js") 

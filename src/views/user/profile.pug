@@ -2,23 +2,26 @@ extends ../base
 include ../mixins/video
 
 block main 
-    div 
-        if user.avatarUrl
-            if user.avatarUrl.startsWith("http")
-                img(src=user.avatarUrl, alt="Avatar", style="width:80px; height:80px; border-radious:50%;")
-            else
-                img(src="/"+user.avatarUrl, alt="Avatar", style="width:80px; height:80px; border-radious:50%;")
-        else 
-            p 😺
-        h2=user.name 
-        p=user.description
+    div.profile 
+        div.avatar.avatar--profile
+            if user.avatarUrl
+                if user.avatarUrl.startsWith("http")
+                    img(src=user.avatarUrl, alt="Avatar")
+                else
+                    img(src="/"+user.avatarUrl, alt="Avatar")
+            else 
+                i.fas.fa-user
+        h2.profile__name=user.name 
+        p.profile__bio=user.description
         if String(loggedInUser._id) === String(user._id)
-            a(href=`/users/${user._id}/edit`) Edit Profile
-    hr
-    div 
-        each video in user.videos.reverse()
-            +video(video)
-            hr
-        else
-            p No video
-            a(href="/videos/upload") Go to upload &rarr;
+            a.edit-button(href=`/users/${user._id}/edit`)
+                i.fas.fa-user-edit
+                span Edit Profile
+    div
+        p.uploads Uploads
+        div.video-grid 
+            each video in user.videos.reverse()
+                +video(video)
+            else
+                div
+                    p.video-grid__not-found No video
