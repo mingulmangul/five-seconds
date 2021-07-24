@@ -1,41 +1,42 @@
 @keyframes message-notification {
-    0% {
-        opacity: 0;
-    }
-    3%, 80% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
+  3%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 .messages {
-    z-index: 2;
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    width: fit-content;
-    padding: 10px 20px;
-    border-radius: 30px;
-    font-size: 15px;
-    animation: message-notification 3s ease-in-out forwards;
-    i {
-        margin-right: 7px;
-    }
+  z-index: 2;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  width: fit-content;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 15px;
+  animation: message-notification 3s ease-in-out forwards;
+  i {
+    margin-right: 7px;
+  }
 }
 .messages__info {
-    background-color: rgb(70, 130, 70);
+  background-color: rgb(70, 130, 70);
 }
 .messages__error {
-    background-color: rgb(200, 70, 70);
+  background-color: rgb(200, 70, 70);
 }
 .messages__error--form {
-    margin-bottom: 15px;
-    color: black;
-    font-size: 15px;
-    i {
-        margin-right: 5px;
-    }
+  margin-bottom: 15px;
+  color: black;
+  font-size: 15px;
+  i {
+    margin-right: 5px;
+  }
 }

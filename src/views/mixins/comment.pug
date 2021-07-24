@@ -5,7 +5,7 @@ mixin comment(comment)
             span.comment__owner=comment.owner.name
             span #{comment.createdAt.toString().substr(4, 11)}
             if String(comment.owner._id) === String(loggedInUser._id)
-                span.comment__delete(data-id=comment._id)
-                    i.fas.fa-trash-alt
+                span.comment__delete
+                    i.fas.fa-trash-alt(data-id=comment._id)
         div.comment__text
             p #{comment.text}

@@ -1,7 +1,7 @@
 const player = document.querySelector(".video-player");
 const form = document.getElementById("commentForm");
 const textarea = form.querySelector("textarea");
-const deleteSpans = document.querySelectorAll(".comment__delete");
+const deleteButtons = document.querySelectorAll(".comment__delete i");
 
 const addComment = (text, id) => {
   const videoComments = document.querySelector(".comments ul");
@@ -91,6 +91,6 @@ if (form) {
   form.addEventListener("submit", handleSubmit);
   textarea.addEventListener("input", handleInput);
 }
-deleteSpans.forEach((deleteSpan) => {
-  deleteSpan.addEventListener("click", handleDeleteBtn);
+deleteButtons.forEach((deleteButton) => {
+  deleteButton.addEventListener("click", handleDeleteBtn);
 });
