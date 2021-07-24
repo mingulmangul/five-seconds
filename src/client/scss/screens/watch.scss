@@ -25,6 +25,9 @@
   &.showing {
     opacity: 1;
   }
+  i {
+    cursor: pointer;
+  }
   input {
     cursor: pointer;
     appearance: none;

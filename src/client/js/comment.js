@@ -19,10 +19,10 @@ const addComment = (text, id) => {
   timeSpan.innerText = new Date().toString().substr(4, 11);
   const deleteSpan = document.createElement("span");
   deleteSpan.className = "comment__delete";
-  deleteSpan.setAttribute("data-id", id);
   deleteSpan.addEventListener("click", handleDeleteBtn);
   const deleteSpanIcon = document.createElement("i");
   deleteSpanIcon.className = "fas fa-trash-alt";
+  deleteSpanIcon.setAttribute("data-id", id);
   const commentText = document.createElement("div");
   commentText.className = "comment__text";
   const comment = document.createElement("p");
