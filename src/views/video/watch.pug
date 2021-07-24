@@ -35,14 +35,16 @@ block main
                     else
                         img(src="/"+video.owner.avatarUrl, alt="Avatar of Video Owner")
                 else 
-                    span 😺
+                    i.fas.fa-user
                 span.video-info__owner--name=video.owner.name
         div
             p.video-info__description=video.description
             ul.video-info__hashtags
                 each hashtag in video.hashtags
                     li=hashtag
-        p.video-info__views #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"}
+        div.video-info__views
+            span #{video.meta.views} #{video.meta.views <= 1 ? "view" : "views"} · 
+            span #{video.createdAt.toString().substr(4, 17)}
         if String(loggedInUser._id) === String(video.owner._id)
             a.edit-button(href=`/videos/${video._id}/edit`)
                 i.fas.fa-edit

@@ -3,9 +3,11 @@
   margin: 15px 30px;
 }
 .comment {
-  height: 50px;
+  min-height: 50px;
   padding: 15px 20px;
-  border-bottom: $horizon;
+  &:not(:last-child) {
+    border-bottom: $horizon;
+  }
 }
 .comment__info > * {
   opacity: 0.6;
@@ -17,7 +19,8 @@
 }
 .comment__text {
   font-size: 18px;
-  margin: 10px 0px;
+  padding: 10px 0px;
+  overflow-wrap: break-word;
 }
 .comment__delete {
   cursor: pointer;

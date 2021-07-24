@@ -119,15 +119,21 @@ export const deleteVideo = async (req, res) => {
     params: { id },
   } = req;
   try {
+    const owner = await User.findById(loggedInUser._id);
     const video = await Video.findById(id);
     if (!video) {
       req.flash("error", "Error: The video not found.");
       return res.status(404).redirect("/");
     }
-    if (String(loggedInUser._id) !== String(video.owner)) {
+    if (String(owner._id) !== String(video.owner)) {
       req.flash("error", "Error: Not authorized.");
       return res.status(403).redirect("/");
     }
+    owner.videos = owner.videos.filter(
+      (videoId) => String(videoId) !== String(id)
+    );
+    await owner.save();
+    await Comment.deleteMany({ video: id });
     await video.deleteOne();
     req.flash("info", "Video is deleted!");
     return res.redirect("/");

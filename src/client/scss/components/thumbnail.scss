@@ -1,43 +1,43 @@
 // video mixin
 .video-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
 }
 .video-grid__not-found {
-    text-align: center;
-    margin: 30px;
-    font-weight: 600;
-    opacity: 0.5;
+  text-align: center;
+  margin: 30px;
+  font-weight: 600;
+  opacity: 0.5;
 }
 .video-grid__link {
-    color: $rose;
-    font-weight: 600;
-    opacity: 1;
+  color: $rose;
+  font-weight: 600;
+  opacity: 1;
 }
 .thumbnail {
-    padding: 10px;
+  padding: 10px;
 }
 .thumbnail__image img {
-    width: 100%;
-    height: 180px;
-    border-radius: 10px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
 }
 .thumbnail__owner .avatar {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-    .thumbnail__owner--name {
-        margin-left: 10px;
-        opacity: 0.6;
-        font-size: 14px;
-    }
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  .thumbnail__owner--name {
+    margin-left: 10px;
+    opacity: 0.6;
+    font-size: 14px;
+  }
 }
 .thumbnail__title {
-    font-size: 20px;
-    margin-bottom: 10px;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 .thumbnail__views {
-    opacity: 0.6;
-    font-size: 12px;
+  opacity: 0.6;
+  font-size: 12px;
 }
